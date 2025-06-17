@@ -8,17 +8,13 @@
 import SwiftUI
 
 struct EditCirclesView: View {
-    @State private var mutableCircles: [String]
-
-    init(circles: [String]) {
-        self._mutableCircles = State(initialValue: circles)
-    }
+    @Binding var circles: [String]
 
     var body: some View {
         VStack {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 20), count: 3), spacing: 30) {
-                ForEach(mutableCircles.indices, id: \.self) { index in
-                    switch mutableCircles[index] {
+                ForEach(circles.indices, id: \.self) { index in
+                    switch circles[index] {
                     case "circle":
                         Circle()
                             .frame(width: 100, height: 100)
@@ -33,22 +29,22 @@ struct EditCirclesView: View {
             
             HStack {
                 Button("Delete All") {
-                    mutableCircles.removeAll()
+                    circles.removeAll()
                 }
                 .padding()
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
 
                 Button("Add") {
-                    mutableCircles.append("circle")
+                    circles.append("circle")
                 }
                 .padding()
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
 
                 Button("Remove") {
-                    if !mutableCircles.isEmpty {
-                        mutableCircles.removeLast()
+                    if !circles.isEmpty {
+                        circles.removeLast()
                     }
                 }
                 .padding()

@@ -66,7 +66,15 @@ struct ShapesGridView: View {
                     }
                     .padding()
                 }
-                NavigationLink(destination: EditCirclesView(circles: shapes.filter { $0 == "circle" }), isActive: $navigateToEditCircles) {
+                NavigationLink(
+                    destination: EditCirclesView(circles: Binding(
+                        get: { shapes.filter { $0 == "circle" } },
+                        set: { newCircles in
+                            shapes = shapes.filter { $0 != "circle" } + newCircles
+                        }
+                    )),
+                    isActive: $navigateToEditCircles
+                ) {
                     EmptyView()
                 }
                 .hidden()
