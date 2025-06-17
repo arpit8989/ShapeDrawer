@@ -10,13 +10,6 @@ import SwiftUI
 struct ShapesGridView: View {
     @StateObject private var viewModel = ShapesViewModel(networkService: WebApiManager())
     var body: some View {
-//        VStack {
-//            Image(systemName: "globe")
-//                .imageScale(.large)
-//                .foregroundStyle(.tint)
-//            Text("Hello, world!")
-//        }
-//        .padding()
         Text("Check the console for logs")
             .padding()
     }
