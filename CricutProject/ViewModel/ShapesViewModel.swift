@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class ShapesViewModel: ObservableObject {
     private let networkService: NetworkService
     @Published var buttons: [ShapeButton] = []
