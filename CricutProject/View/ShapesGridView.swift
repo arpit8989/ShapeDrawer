@@ -9,12 +9,25 @@ import SwiftUI
 
 struct ShapesGridView: View {
     @StateObject private var viewModel = ShapesViewModel(networkService: WebApiManager())
-    var body: some View {
-        Text("Check the console for logs")
-            .padding()
-    }
-}
 
-#Preview {
-    ShapesGridView()
+    var body: some View {
+        VStack {
+            Spacer()
+
+            HStack {
+                ForEach(viewModel.buttons) { button in
+                    Text(button.name)
+                        .padding()
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(8)
+                }
+            }
+            .padding()
+        }
+        .onAppear {
+            Task {
+                await viewModel.fetchShapes()
+            }
+        }
+    }
 }
