@@ -11,8 +11,17 @@ struct ShapeModel: Decodable {
     let buttons: [ShapeButton]
 }
 
-struct ShapeButton: Decodable, Identifiable {
-    let id = UUID()
+struct ShapeButton: Decodable {
     let name: String
-    let draw_path: String
+    let drawPath: String
+    enum CodingKeys: String, CodingKey {
+        case name
+        case drawPath = "draw_path"
+    }
+}
+
+extension ShapeButton: Identifiable {
+    var id: UUID {
+        return UUID()
+    }
 }

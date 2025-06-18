@@ -7,23 +7,27 @@
 
 import Foundation
 
-@MainActor
-class ShapesViewModel: ObservableObject {
+enum ViewState {
+    case loading
+    case load([ShapeButton])
+    case error(String)
+}
+
+final class ShapesViewModel: ObservableObject {
     private let networkService: NetworkService
-    @Published var buttons: [ShapeButton] = []
+    @Published var viewState = ViewState.loading
     
     init(networkService: NetworkService) {
         self.networkService = networkService
     }
     
+    @MainActor
     func fetchShapes() async {
         do {
             let response: ShapeModel = try await networkService.fetchData(from: ApiConstants.apiUrl)
-            DispatchQueue.main.async {
-                self.buttons = response.buttons
-            }
+             viewState = .load( response.buttons)
         } catch {
-            print("Error in fetching shapes: ", error.localizedDescription)
+            viewState = .error(error.localizedDescription)
         }
     }
 }

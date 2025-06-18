@@ -31,28 +31,19 @@ protocol NetworkService {
     func fetchData<T: Decodable>(from urlString: String) async throws -> T
 }
 
-class WebApiManager: NetworkService {
+struct WebApiManager: NetworkService {
     func fetchData<T>(from urlString: String) async throws -> T where T : Decodable {
         guard let url = URL(string: urlString) else {
             throw NetworkError.badURL
         }
+        let (data, response) = try await URLSession.shared.data(from: url)
         
-        do {
-            let (data, response) = try await URLSession.shared.data(from: url)
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                throw NetworkError.invalidResponse
-            }
-            
-            do {
-                let decodedData = try JSONDecoder().decode(T.self, from: data)
-                return decodedData
-            } catch {
-                throw NetworkError.decodingError
-            }
-        } catch {
-            throw NetworkError.other(error.localizedDescription)
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw NetworkError.invalidResponse
         }
+        
+        let decodedData = try JSONDecoder().decode(T.self, from: data)
+        return decodedData
     }
 }

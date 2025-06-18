@@ -53,15 +53,22 @@ struct ShapesGridView: View {
                     Spacer()
 
                     HStack {
-                        ForEach(viewModel.buttons) { button in
-                            Button(action: {
-                                shapes.append(button.draw_path)
-                            }) {
-                                Text(button.name)
-                                    .padding()
-                                    .background(Color.gray.opacity(0.2))
-                                    .cornerRadius(8)
+                        switch viewModel.viewState {
+                        case .loading:
+                            ProgressView()
+                        case .load(let buttons):
+                            ForEach(buttons) { button in
+                                Button(action: {
+                                    shapes.append(button.drawPath)
+                                }) {
+                                    Text(button.name)
+                                        .padding()
+                                        .background(Color.gray.opacity(0.2))
+                                        .cornerRadius(8)
+                                }
                             }
+                        case .error(let error):
+                            Text(error)
                         }
                     }
                     .padding()
@@ -80,10 +87,8 @@ struct ShapesGridView: View {
                 .hidden()
             }
         }
-        .onAppear {
-            Task {
-                await viewModel.fetchShapes()
-            }
+        .task {
+            await viewModel.fetchShapes()
         }
     }
 }
