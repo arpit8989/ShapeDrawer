@@ -72,10 +72,15 @@ Unit tests for the ViewModel are available under `CricutProjectTests.swift`.
 
 ## 📸 Screenshots
 
-_(Add screenshots here if available)_
+### IOS:
 
----
+![Simulator Screenshot - iPhone 16 Pro - 2025-06-18 at 12 17 15](https://github.com/user-attachments/assets/b27f921f-b3c5-47f9-9646-eaa7b68c23c1)
 
-## 📄 License
+![Simulator Screenshot - iPhone 16 Pro - 2025-06-18 at 12 17 23](https://github.com/user-attachments/assets/d781b3c3-27f3-4463-9c68-12ccba9ffba2)
 
-MIT License © 2025
+
+### IPAD:
+
+![Simulator Screenshot - iPad (10th generation) - 2025-06-18 at 12 19 48](https://github.com/user-attachments/assets/fbe8d2d6-67eb-44ee-9c88-7f5b1aaf69f2)
+
+![Simulator Screenshot - iPad (10th generation) - 2025-06-18 at 12 19 55](https://github.com/user-attachments/assets/35cb3654-b237-400e-867f-7bf56df37184)
