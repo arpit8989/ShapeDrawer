@@ -22,9 +22,7 @@ struct ShapeButtonBar: View {
                         onShapeSelected(button.drawPath)
                     }) {
                         Text(button.name)
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(8)
+                            .roundedGrayButtonStyle()
                     }
                 }
             case .error(let error):

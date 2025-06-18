@@ -26,25 +26,19 @@ struct EditCirclesView: View {
                 Button("Delete All") {
                     circles.removeAll()
                 }
-                .padding()
-                .background(Color.gray.opacity(0.2))
-                .cornerRadius(8)
+                .roundedGrayButtonStyle()
 
                 Button("Add") {
                     circles.append("circle")
                 }
-                .padding()
-                .background(Color.gray.opacity(0.2))
-                .cornerRadius(8)
+                .roundedGrayButtonStyle()
 
                 Button("Remove") {
                     if !circles.isEmpty {
                         circles.removeLast()
                     }
                 }
-                .padding()
-                .background(Color.gray.opacity(0.2))
-                .cornerRadius(8)
+                .roundedGrayButtonStyle()
             }
             .padding()
         }
