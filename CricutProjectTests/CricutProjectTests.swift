@@ -10,27 +10,55 @@ import XCTest
 
 final class CricutProjectTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+}
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+// MARK: - ShapesViewModel Tests
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
+// Mock NetworkService for ShapesViewModel
+struct MockNetworkService: NetworkService {
+    let result: Result<ShapeModel, Error>
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func fetchData<T>(from urlString: String) async throws -> T where T : Decodable {
+        switch result {
+        case .success(let model):
+            guard let casted = model as? T else {
+                throw NetworkError.decodingError
+            }
+            return casted
+        case .failure(let error):
+            throw error
+        }
+    }
+}
+
+extension CricutProjectTests {
+    func testViewModelFetchShapesSuccess() async {
+        let shapeButton = ShapeButton(name: "Circle", drawPath: "circle")
+        let mockService = MockNetworkService(result: .success(ShapeModel(buttons: [shapeButton])))
+        let viewModel = ShapesViewModel(networkService: mockService)
+
+        await viewModel.fetchShapes()
+
+        switch viewModel.viewState {
+        case .load(let buttons):
+            XCTAssertEqual(buttons.count, 1)
+            XCTAssertEqual(buttons.first?.name, "Circle")
+        default:
+            XCTFail("Expected .load state")
         }
     }
 
+    func testViewModelFetchShapesFailure() async {
+        let mockService = MockNetworkService(result: .failure(NetworkError.decodingError))
+        let viewModel = ShapesViewModel(networkService: mockService)
+
+        await viewModel.fetchShapes()
+
+        switch viewModel.viewState {
+        case .error(let message):
+            XCTAssertEqual(message, NetworkError.decodingError.localizedDescription)
+        default:
+            XCTFail("Expected .error state")
+        }
+    }
 }
