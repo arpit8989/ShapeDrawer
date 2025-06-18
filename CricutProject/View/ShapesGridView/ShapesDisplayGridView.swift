@@ -16,16 +16,13 @@ struct ShapesDisplayGridView: View {
                 switch shapes[index] {
                 case "circle":
                     Circle()
-                        .frame(width: 100, height: 100)
-                        .foregroundColor(Color.blue.opacity(0.3))
+                        .shapeColorStyle()
                 case "square":
                     Rectangle()
-                        .frame(width: 100, height: 100)
-                        .foregroundColor(Color.blue.opacity(0.3))
+                        .shapeColorStyle()
                 case "triangle":
                     TriangleShape()
-                        .frame(width: 100, height: 100)
-                        .foregroundColor(Color.blue.opacity(0.3))
+                        .shapeColorStyle()
                 default:
                     EmptyView()
                 }
