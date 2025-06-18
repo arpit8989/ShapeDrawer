@@ -13,15 +13,10 @@ struct EditCirclesView: View {
     var body: some View {
         VStack {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 20), count: 3), spacing: 30) {
-                ForEach(circles.indices, id: \.self) { index in
-                    switch circles[index] {
-                    case "circle":
-                        Circle()
-                            .frame(width: 100, height: 100)
-                            .foregroundColor(Color.blue.opacity(0.3))
-                    default:
-                        EmptyView()
-                    }
+                ForEach(circles.indices, id: \.self) { _ in
+                    Circle()
+                        .frame(width: 100, height: 100)
+                        .foregroundColor(Color.blue.opacity(0.3))
                 }
             }
             

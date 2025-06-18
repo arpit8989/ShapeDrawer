@@ -78,7 +78,25 @@ struct ShapesGridView: View {
                 EditCirclesView(circles: Binding(
                     get: { shapes.filter { $0 == "circle" } },
                     set: { newCircles in
-                        shapes = shapes.filter { $0 != "circle" } + newCircles
+                        var updatedShapes = shapes
+                        let circleIndices = updatedShapes.indices.filter { updatedShapes[$0] == "circle" }
+
+                        // Replace existing circles
+                        for (i, index) in circleIndices.enumerated() {
+                            if i < newCircles.count {
+                                updatedShapes[index] = newCircles[i]
+                            } else {
+                                updatedShapes[index] = ""
+                            }
+                        }
+
+                        // Append extra new circles if any
+                        if newCircles.count > circleIndices.count {
+                            let extras = newCircles[circleIndices.count...]
+                            updatedShapes.append(contentsOf: extras)
+                        }
+
+                        shapes = updatedShapes.filter { !$0.isEmpty }
                     }
                 ))
             }
