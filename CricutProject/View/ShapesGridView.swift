@@ -13,7 +13,7 @@ struct ShapesGridView: View {
     @State private var navigateToEditCircles = false
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 VStack {
                     HStack {
@@ -73,18 +73,14 @@ struct ShapesGridView: View {
                     }
                     .padding()
                 }
-                NavigationLink(
-                    destination: EditCirclesView(circles: Binding(
-                        get: { shapes.filter { $0 == "circle" } },
-                        set: { newCircles in
-                            shapes = shapes.filter { $0 != "circle" } + newCircles
-                        }
-                    )),
-                    isActive: $navigateToEditCircles
-                ) {
-                    EmptyView()
-                }
-                .hidden()
+            }
+            .navigationDestination(isPresented: $navigateToEditCircles) {
+                EditCirclesView(circles: Binding(
+                    get: { shapes.filter { $0 == "circle" } },
+                    set: { newCircles in
+                        shapes = shapes.filter { $0 != "circle" } + newCircles
+                    }
+                ))
             }
         }
         .task {
